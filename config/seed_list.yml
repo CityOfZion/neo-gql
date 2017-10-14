@@ -1,0 +1,14 @@
+main:
+  - http://seed1.cityofzion.io:8880
+  - http://seed2.cityofzion.io:8880
+  - http://seed3.cityofzion.io:8880
+  - http://seed4.cityofzion.io:8880
+
+test:
+  - http://test1.cityofzion.io:8880
+  - http://test2.cityofzion.io:8880
+  - http://test3.cityofzion.io:8880
+  - http://test4.cityofzion.io:8880
+
+private:
+  - http://localhost:10333
