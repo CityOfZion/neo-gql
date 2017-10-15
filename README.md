@@ -7,10 +7,9 @@
 ```sh
 git clone https://github.com/ambethia/neo-gql.git
 cd neo-gql
-bundle install
-rake db:setup
-NEO_NET=test rake sync
-rails server
+./bin/setup
+NEO_NET=test ./bin/rake sync
+./bin/rails server
 ```
 
 ### Private Blockchain
