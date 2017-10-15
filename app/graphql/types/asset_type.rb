@@ -21,8 +21,8 @@ Types::AssetType = GraphQL::ObjectType.define do
 
   field :name, types.String, "Name of this asset" do
     resolve -> (obj, args, ctx) {
-      en_name = obj.name.find { |n| n['lang'] == 'en' }['name']
-      ASSET_NAMES[en_name] || en_name
+      name = obj.name.find { |n| n['lang'] == 'en' } || obj.name.first
+      ASSET_NAMES[name] || name['name']
     }
   end
 
