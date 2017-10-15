@@ -16,3 +16,9 @@ rails server
 ### Private Blockchain
 
 Edit `config/seed_list.yml` and set `NEO_NET` to `private` when syncing.
+
+---
+
+<p align="center">
+  <img src="https://i.imgur.com/a8SIj9e.png">
+</p>
