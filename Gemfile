@@ -6,6 +6,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 
 gem 'rack-cors'
+gem 'graphql'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -1,5 +1,5 @@
 class Output < ApplicationRecord
-  belongs_to :address
+  belongs_to :account
   belongs_to :asset
   # called 'spending_transaction' because 'transaction' is reserved by Rails
   belongs_to :spending_transaction,
@@ -9,7 +9,7 @@ class Output < ApplicationRecord
   def self.import(data)
     data['index'] = data.delete('n')
     data['asset'] = Asset.find_by(asset_id: data.delete('asset'))
-    data['address'] = Address.find_or_create_by(address: data.delete('address'))
+    data['account'] = Account.find_or_create_by(address: data.delete('address'))
     create!(data).update_balance
   end
 
@@ -18,7 +18,7 @@ class Output < ApplicationRecord
   end
 
   def update_balance
-    address.balances.find_or_create_by(asset: asset).update_attribute(:value, value)
+    account.balances.find_or_create_by(asset: asset).update_attribute(:value, value)
   end
 
   def claim

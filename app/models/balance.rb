@@ -1,4 +1,4 @@
 class Balance < ApplicationRecord
-  belongs_to :address
+  belongs_to :account
   belongs_to :asset
 end

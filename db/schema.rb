@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20171014193458) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "addresses", force: :cascade do |t|
+  create_table "accounts", force: :cascade do |t|
     t.string "address"
     t.string "script_hash"
     t.datetime "created_at", null: false
@@ -25,22 +25,22 @@ ActiveRecord::Schema.define(version: 20171014193458) do
   create_table "assets", force: :cascade do |t|
     t.string "asset_id"
     t.string "asset_type"
-    t.string "name"
     t.string "owner"
     t.string "admin"
     t.string "amount"
     t.integer "precision"
+    t.json "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "balances", force: :cascade do |t|
     t.bigint "asset_id"
-    t.bigint "address_id"
+    t.bigint "account_id"
     t.bigint "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_balances_on_address_id"
+    t.index ["account_id"], name: "index_balances_on_account_id"
     t.index ["asset_id"], name: "index_balances_on_asset_id"
   end
 
@@ -64,14 +64,14 @@ ActiveRecord::Schema.define(version: 20171014193458) do
 
   create_table "outputs", force: :cascade do |t|
     t.bigint "transaction_id"
-    t.bigint "address_id"
+    t.bigint "account_id"
     t.bigint "asset_id"
     t.integer "index"
     t.bigint "value"
     t.boolean "claimed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_outputs_on_address_id"
+    t.index ["account_id"], name: "index_outputs_on_account_id"
     t.index ["asset_id"], name: "index_outputs_on_asset_id"
     t.index ["transaction_id"], name: "index_outputs_on_transaction_id"
   end

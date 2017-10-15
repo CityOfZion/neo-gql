@@ -3,11 +3,11 @@ class CreateAssets < ActiveRecord::Migration[5.1]
     create_table :assets do |t|
       t.string :asset_id
       t.string :asset_type
-      t.string :name
       t.string :owner
       t.string :admin
       t.string :amount
       t.integer :precision
+      t.json :name
       t.timestamps
     end
   end
