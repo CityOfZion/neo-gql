@@ -1,5 +1,3 @@
-require_relative '../helper'
-
 Types::BlockType = GraphQL::ObjectType.define do
   name "Block"
   description "A block in the blockchain"

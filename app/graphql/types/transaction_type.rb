@@ -1,5 +1,3 @@
-require_relative '../helper'
-
 Types::TransactionType = GraphQL::ObjectType.define do
   name "Transaction"
   description "A transaction on the blockchain"
