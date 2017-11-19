@@ -1,5 +1,3 @@
-require 'neo/rpc'
-
 class Block < ApplicationRecord
   has_many :transactions
 

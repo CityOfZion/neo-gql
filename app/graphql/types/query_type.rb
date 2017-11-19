@@ -8,10 +8,13 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :address, types.String
     argument :scriptHash, Types::HexType
     description "Find an Asset by it's address or script hash"
+    resolve -> (obj, args, ctx) { Account.find_by_address(args[:address]) }
   end
 
-  field :accounts, !types[Types::AccountType] do
-    resolve -> (obj, args, ctx) { Account.all }
+  field :accounts do
+    type !types[Types::AccountType]
+    argument :limit, types.Int
+    resolve -> (obj, args, ctx) { Account.limit(args[:limit] || 10) }
   end
 
   # TODO: Implement find by name
