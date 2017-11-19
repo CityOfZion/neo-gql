@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: postgres
+  api:
+    build: .
+    environment:
+      - NEO_NET=http://docker.for.mac.localhost:30333,http://docker.for.mac.localhost:30334,http://docker.for.mac.localhost:30334,http://docker.for.mac.localhost:30336
+      - DATABASE_URL=postgresql://postgres@db/neo-gql
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    links:
+      - db

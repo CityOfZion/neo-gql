@@ -44,6 +44,8 @@ GEM
     concurrent-ruby (1.0.5)
     crass (1.0.2)
     erubi (1.7.0)
+    et-orbi (1.0.8)
+      tzinfo
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -101,6 +103,8 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     ruby_dep (1.5.0)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -132,6 +136,7 @@ DEPENDENCIES
   puma (~> 3.7)
   rack-cors
   rails (~> 5.1.4)
+  rufus-scheduler
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

@@ -12,9 +12,15 @@ NEO_NET=test ./bin/rake sync
 ./bin/rails server
 ```
 
+Use the environment variable `NEO_NET`, set to either `main` or `test`, to choose which blockchain to sync.
+
 ### Private Blockchain
 
-Edit `config/seed_list.yml` and set `NEO_NET` to `private` when syncing.
+Set the `NEO_NET` environment variable to a comma separate list of nodes, e.g.:
+
+```
+NEO_NET=http://localhost:10333,http://localhost:10334,http://localhost:10334,http://localhost:10336
+```
 
 ---
 
