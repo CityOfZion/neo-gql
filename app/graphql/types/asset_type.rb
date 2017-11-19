@@ -1,8 +1,3 @@
-ASSET_NAMES = {
-  'AntShare' => 'NEO',
-  'AntCoin' => 'GAS',
-}
-
 Types::AssetType = GraphQL::ObjectType.define do
   name "Asset"
   description "Assets registered on the blockchain"
@@ -21,8 +16,8 @@ Types::AssetType = GraphQL::ObjectType.define do
 
   field :name, types.String, "Name of this asset" do
     resolve -> (obj, args, ctx) {
-      name = obj.name.find { |n| n['lang'] == 'en' } || obj.name.first
-      ASSET_NAMES[name] || name['name']
+      name = (obj.name.find { |n| n['lang'] == 'en' } || obj.name.first)['name']
+      I18n.t(name)
     }
   end
 

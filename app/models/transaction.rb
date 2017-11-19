@@ -28,7 +28,7 @@ class Transaction < ApplicationRecord
   end
 
   def update_outputs
-    vin.each { |input| Output.claim(*input.values_at('txid', 'vout')) }
     vout.each { |output| outputs.import(output.dup) }
+    vin.each { |input| Output.claim(*input.values_at('txid', 'vout')) }
   end
 end

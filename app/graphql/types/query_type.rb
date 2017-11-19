@@ -19,7 +19,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   # TODO: Implement find by name
   field :asset do
-    type Types::BlockType
+    type Types::AssetType
     argument :id, Types::HexType
     argument :name, types.String
     description "Find an Asset by it's name or id"

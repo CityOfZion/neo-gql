@@ -6,22 +6,21 @@ class Output < ApplicationRecord
     foreign_key: 'transaction_id',
     class_name: 'Transaction'
 
+  scope :unclaimed, -> (asset) { where(claimed: false, asset: asset) }
+
   def self.import(data)
     data['index'] = data.delete('n')
     data['asset'] = Asset.find_by(asset_id: data.delete('asset'))
     data['account'] = Account.find_or_create_by(address: data.delete('address'))
-    create!(data).update_balance
+    create!(data).account.update_balance(data['asset'])
   end
 
   def self.claim(txid, index)
     Transaction.unscoped.find_by_txid(txid).outputs.find_by_index(index).claim
   end
 
-  def update_balance
-    account.balances.find_or_create_by(asset: asset).update_attribute(:value, value)
-  end
-
   def claim
     update_attribute :claimed, true
+    account.update_balance(asset)
   end
 end
