@@ -14,7 +14,7 @@ class Output < ApplicationRecord
     data['index'] = data.delete('n')
     data['asset'] = Asset.find_by(asset_id: data.delete('asset'))
     data['account'] = Account.find_or_create_by(address: data.delete('address'))
-    create!(data).account.update_balance(data['asset'])
+    create!(data).account.reload.update_balance(data['asset'])
   end
 
   def self.claim(txid, index)
