@@ -7,13 +7,13 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.integer :version
       t.string :txid
       t.string :tx_type
-      t.string :sys_fee
-      t.string :net_fee
-      t.json :data
-      t.json :tx_attributes
-      t.json :vin
-      t.json :vout
-      t.json :scripts
+      t.bigint :sys_fee
+      t.bigint :net_fee
+      t.jsonb :data
+      t.jsonb :tx_attributes
+      t.jsonb :vin
+      t.jsonb :vout
+      t.jsonb :scripts
       t.timestamps
     end
   end

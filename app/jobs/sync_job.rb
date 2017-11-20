@@ -15,9 +15,9 @@ class SyncJob < ApplicationJob
   end
 
   def perform(*args)
-    chain_height = Neo.rpc 'getblockcount'
+    chain_height = Node.rpc 'getblockcount'
     while (index = Block.height + 1) < chain_height
-      data = Neo.rpc 'getblock', index, true
+      data = Node.rpc 'getblock', index, true
       Block.import(data)
       puts "Imported Block: #{index}"
     end

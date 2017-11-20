@@ -7,7 +7,7 @@ class CreateAssets < ActiveRecord::Migration[5.1]
       t.string :admin
       t.string :amount
       t.integer :precision
-      t.json :name
+      t.jsonb :name
       t.timestamps
     end
   end

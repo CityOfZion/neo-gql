@@ -15,10 +15,7 @@ Types::AssetType = GraphQL::ObjectType.define do
   end
 
   field :name, types.String, "Name of this asset" do
-    resolve -> (obj, args, ctx) {
-      name = (obj.name.find { |n| n['lang'] == 'en' } || obj.name.first)['name']
-      I18n.t(name)
-    }
+    resolve -> (obj, args, ctx) { obj.common_name }
   end
 
   field :owner, types.String

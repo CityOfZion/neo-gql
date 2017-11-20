@@ -8,6 +8,8 @@ class Output < ApplicationRecord
 
   scope :unclaimed, -> (asset) { where(claimed: false, asset: asset) }
 
+  delegate :txid, to: :spending_transaction
+
   def self.import(data)
     data['index'] = data.delete('n')
     data['asset'] = Asset.find_by(asset_id: data.delete('asset'))

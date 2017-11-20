@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171014193458) do
+ActiveRecord::Schema.define(version: 20171119203000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20171014193458) do
     t.string "admin"
     t.string "amount"
     t.integer "precision"
-    t.json "name"
+    t.jsonb "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -55,11 +55,20 @@ ActiveRecord::Schema.define(version: 20171014193458) do
     t.string "block_hash"
     t.string "prev_block_hash"
     t.string "next_block_hash"
-    t.json "script"
-    t.json "tx"
+    t.jsonb "script"
+    t.jsonb "tx"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["index"], name: "index_blocks_on_index"
+  end
+
+  create_table "nodes", force: :cascade do |t|
+    t.string "url"
+    t.bigint "block_height"
+    t.boolean "status"
+    t.float "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "outputs", force: :cascade do |t|
@@ -82,13 +91,13 @@ ActiveRecord::Schema.define(version: 20171014193458) do
     t.integer "version"
     t.string "txid"
     t.string "tx_type"
-    t.string "sys_fee"
-    t.string "net_fee"
-    t.json "data"
-    t.json "tx_attributes"
-    t.json "vin"
-    t.json "vout"
-    t.json "scripts"
+    t.bigint "sys_fee"
+    t.bigint "net_fee"
+    t.jsonb "data"
+    t.jsonb "tx_attributes"
+    t.jsonb "vin"
+    t.jsonb "vout"
+    t.jsonb "scripts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["block_id"], name: "index_transactions_on_block_id"

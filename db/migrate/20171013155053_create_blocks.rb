@@ -11,8 +11,8 @@ class CreateBlocks < ActiveRecord::Migration[5.1]
       t.string :block_hash
       t.string :prev_block_hash
       t.string :next_block_hash
-      t.json :script
-      t.json :tx
+      t.jsonb :script
+      t.jsonb :tx
       t.timestamps
     end
   end
