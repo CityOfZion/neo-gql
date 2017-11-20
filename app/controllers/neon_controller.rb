@@ -21,7 +21,11 @@ class NeonController < ApplicationController
     balances = Asset.all.reduce({}) do |memo, asset|
       memo[asset.common_name] = {
         balance: Balance.where(account: account, asset: asset).first&.value || 0,
-        unspent: Output.where(account: account).unclaimed(asset).map { |o| o.slice(:index, :txid, :value) }
+        unspent: Output.where(account: account).unclaimed(asset).map { |o|
+          d = o.slice(:index, :txid, :value)
+          d['txid'] = d['txid'].split('0x').last
+          d
+        }
       }
       memo
     end
