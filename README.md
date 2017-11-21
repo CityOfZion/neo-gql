@@ -17,15 +17,17 @@
   </a>
 </p>
 
-<p align="center">
-  <img src="https://i.imgur.com/a8SIj9e.png">
-</p>
-
-## What?
+## What is this?
 
 - A GraphQL API for exploring the NEO blockchain.
 - Retrieve blocks, transactions, account balances, etc.
 - Also includes a partial implementation of the [`neon-wallet-db` API](https://github.com/CityOfZion/neon-wallet-db)
+
+<p align="center">
+  <img src="https://i.imgur.com/a8SIj9e.png">
+</p>
+
+## Setup
 
 ```sh
 git clone https://github.com/CityOfZion/neo-gql.git
