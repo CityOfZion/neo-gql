@@ -15,6 +15,7 @@ class Output < ApplicationRecord
     data['asset'] = Asset.find_by(asset_id: data.delete('asset'))
     data['account'] = Account.find_or_create_by(address: data.delete('address'))
     create!(data).account.reload.update_balance(data['asset'])
+    UpdateBalanceJob.perform_later(data['account'].id, data['asset'].id)
   end
 
   def self.claim(txid, index)
@@ -23,6 +24,6 @@ class Output < ApplicationRecord
 
   def claim
     update_attribute :claimed, true
-    account.update_balance(asset)
+    UpdateBalanceJob.perform_later(account.id, asset.id)
   end
 end
