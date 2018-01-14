@@ -8,4 +8,4 @@ RUN bundle install
 
 ADD . /usr/src/app/
 
-CMD bin/rails server puma
+CMD bin/start

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [ -f tmp/pids/server.pid ]; then
+    rm tmp/pids/server.pid
+fi
+
+bundle exec rails db:migrate
+
+if [[ $? != 0 ]]; then
+  echo
+  echo "== Failed to migrate. Running setup first."
+  echo
+  bundle exec rails db:setup db:migrate
+fi
+
+bundle exec rails server puma
