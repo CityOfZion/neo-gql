@@ -28,7 +28,9 @@ class Transaction < ApplicationRecord
     input_transaction_data = []
     tx['vin'].each do |vin|
       lookup_tx = Transaction.unscoped.where(txid: vin['txid']).first
-      input_transaction_data << lookup_tx.vout[vin['vout']]
+      data = lookup_tx.vout[vin['vout']]
+      data['txid'] = vin['txid'].split('0x').last
+      input_transaction_data << data
     end
     tx['vin_verbose'] = input_transaction_data
 
