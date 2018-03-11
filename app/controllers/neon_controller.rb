@@ -1,4 +1,6 @@
 class NeonController < ApplicationController
+  NEO_ID = '0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b'
+  GAS_ID = '0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7'
 
   def network_nodes
     json nodes: Node.all.map { |node| node.slice(:block_height, :status, :time, :url) }
@@ -38,9 +40,42 @@ class NeonController < ApplicationController
     json total_claim: 0, total_unspent_claim: 0, address: params[:address], claims: []
   end
 
-  # TODO: Not implemented
   def address_history
-    json name: "transaction_history", address: params[:address], history: []
+    address = params[:address]
+    transactions = Transaction.
+      where('vout @> :q OR vin_verbose @> :q', { q: [{ address: address }].to_json }).
+      joins(:block).
+      order('blocks.index DESC').
+      limit(20)
+    history = transactions.map { |tx|
+      neo_in, neo_out = 0, 0
+      gas_in, gas_out = 0.0, 0.0
+      neo_sent, gas_sent = false, false
+      tx['vin_verbose'].each do |vin|
+        if vin['address'] == address
+          neo_out += vin['value'].to_i if vin['asset'] == NEO_ID
+          gas_out += vin['value'].to_f if vin['asset'] == GAS_ID
+        end
+      end
+      tx['vout'].each do |vout|
+        if vout['address'] == address
+          neo_in += vout['value'].to_i if vout['asset'] == NEO_ID
+          gas_in += vout['value'].to_f if vout['asset'] == GAS_ID
+        end
+      end
+      neo_total = neo_in - neo_out
+      gas_total = gas_in - gas_out
+
+      {
+        txid: tx.txid,
+        block_index: tx.block.index,
+        NEO: neo_total,
+        GAS: gas_total,
+        neo_sent: !neo_total.zero?,
+        gas_sent: !gas_total.zero?
+      }
+    }
+    json name: "transaction_history", address: address, history: history
   end
 
   # noop

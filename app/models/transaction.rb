@@ -24,6 +24,14 @@ class Transaction < ApplicationRecord
     tx['tx_type'] = data.delete('type')
     tx['tx_attributes'] = data.delete('attributes')
     raise "Unused TX Data: #{data} in #{tx}" unless data.empty?
+
+    input_transaction_data = []
+    tx['vin'].each do |vin|
+      lookup_tx = Transaction.unscoped.where(txid: vin['txid']).first
+      input_transaction_data << lookup_tx.vout[vin['vout']]
+    end
+    tx['vin_verbose'] = input_transaction_data
+
     create!(tx).update_outputs
   end
 
