@@ -13,8 +13,9 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :accounts do
     type !types[Types::AccountType]
-    argument :limit, types.Int
-    resolve -> (obj, args, ctx) { Account.limit(args[:limit] || 10) }
+    argument :limit, types.Int, default_value: 20, prepare: ->(limit, ctx) {[limit, 50].min}
+    argument :offset, types.Int, default_value: 0
+    resolve -> (obj, args, ctx) { Account.limit(args[:limit]).offset(args[:offset]) }
   end
 
   # TODO: Implement find by name
@@ -29,7 +30,9 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :assets, !types[Types::AssetType] do
-    resolve -> (obj, args, ctx) { Asset.all }
+    argument :limit, types.Int, default_value: 20, prepare: ->(limit, ctx) {[limit, 50].min}
+    argument :offset, types.Int, default_value: 0
+    resolve -> (obj, args, ctx) { Asset.limit(args[:limit]).offset(args[:offset]) }
   end
 
   # TODO: Needs offset
@@ -43,7 +46,9 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :blocks, !types[Types::BlockType] do
-    resolve -> (obj, args, ctx) { Block.all }
+    argument :limit, types.Int, default_value: 20, prepare: ->(limit, ctx) {[limit, 50].min}
+    argument :offset, types.Int, default_value: 0
+    resolve -> (obj, args, ctx) { Block.limit(args[:limit]).offset(args[:offset]) }
   end
 
   field :transaction do
@@ -54,6 +59,13 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   field :transactions, !types[Types::TransactionType] do
-    resolve -> (obj, args, ctx) { Transaction.all }
+    argument :limit, types.Int, default_value: 20, prepare: ->(limit, ctx) {[limit, 50].min}
+    argument :offset, types.Int, default_value: 0
+    argument :types, types[types.String]
+    resolve -> (obj, args, ctx) {
+      scope = Transaction.limit(args[:limit]).offset(args[:offset])
+      scope = scope.where(tx_type: args[:types]) if args[:types]
+      scope
+    }
   end
 end
