@@ -48,7 +48,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :blocks, !types[Types::BlockType] do
     argument :limit, types.Int, default_value: 20, prepare: ->(limit, ctx) {[limit, 50].min}
     argument :offset, types.Int, default_value: 0
-    resolve -> (obj, args, ctx) { Block.limit(args[:limit]).offset(args[:offset]) }
+    resolve -> (obj, args, ctx) { Block.limit(args[:limit]).offset(args[:offset]).order('index DESC') }
   end
 
   field :transaction do
@@ -63,7 +63,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :offset, types.Int, default_value: 0
     argument :types, types[types.String]
     resolve -> (obj, args, ctx) {
-      scope = Transaction.limit(args[:limit]).offset(args[:offset])
+      scope = Transaction.limit(args[:limit]).offset(args[:offset]).includes(:block).order('blocks.index DESC')
       scope = scope.where(tx_type: args[:types]) if args[:types]
       scope
     }
